@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>CS6180 Team23 — Approach Comparison</title>
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Charter', 'Georgia', 'Times New Roman', serif; background: #ffffff; color: #2c2c2c; margin: 0; padding: 0; border-top: 4px solid #1a3a5c; }
+.container { max-width: 1100px; margin: 0 auto; padding: 30px 40px; }
+h1 { text-align: center; color: #1a3a5c; font-size: 1.7em; margin-bottom: 2px; font-weight: 700; }
+h2 { color: #1a3a5c; margin-top: 32px; padding-bottom: 6px; border-bottom: 1px solid #d1d5db; font-size: 1.2em; }
+.subtitle { text-align: center; color: #6b7280; font-size: 0.85em; margin-bottom: 28px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin: 20px 0; }
+.card { background: #f8f9fa; border: 1px solid #d1d5db; border-radius: 2px; padding: 20px; }
+.card.winner { border-left: 4px solid #b8860b; background: #fffdf5; }
+.card h3 { margin: 0 0 8px; color: #1a3a5c; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; font-size: 1em; }
+.score { font-size: 1.8em; font-weight: 700; color: #b8860b; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; }
+.score-max { font-size: 0.4em; color: #6b7280; }
+.metrics { font-size: 0.8em; color: #6b7280; margin: 8px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; }
+.sw-section { margin: 8px 0; }
+.sw-section ul { margin: 4px 0; padding-left: 16px; }
+.sw-section li { font-size: 0.82em; color: #4b5563; margin: 2px 0; }
+.sw-good { color: #1a6b3c; font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.5px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; }
+.sw-bad { color: #9b2c2c; font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.5px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; }
+.score-table { background: #f8f9fa; border: 1px solid #d1d5db; border-radius: 2px; padding: 24px; margin: 20px 0; }
+.score-table h3 { color: #1a3a5c; margin-top: 0; font-size: 1em; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; }
+.score-table table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.score-table th { text-align: left; padding: 10px 8px; border-bottom: 2px solid #1a3a5c; color: #1a3a5c; font-size: 0.82em; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; text-transform: uppercase; letter-spacing: 0.3px; }
+.score-table td { padding: 10px 8px; border-bottom: 1px solid #e5e7eb; font-size: 0.9em; }
+.dim-weight { color: #6b7280; font-size: 0.85em; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; }
+.score-table tr:nth-child(even) td { background: #f3f4f6; }
+.score-bar-wrap { display: flex; align-items: center; gap: 8px; }
+.score-bar { height: 6px; border-radius: 1px; min-width: 4px; }
+.score-bar-wrap span { font-size: 0.85em; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; color: #2c2c2c; }
+.tab-bar { display: flex; gap: 2px; margin: 20px 0 0; flex-wrap: wrap; }
+.tab-btn { background: #f3f4f6; color: #6b7280; border: 1px solid #d1d5db; border-bottom: none; border-radius: 2px 2px 0 0; padding: 10px 22px; cursor: pointer; font-size: 0.82em; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; text-transform: uppercase; letter-spacing: 0.3px; }
+.tab-btn:hover { color: #1a3a5c; background: #e5e7eb; }
+.tab-btn.active { background: #ffffff; color: #1a3a5c; border-color: #1a3a5c; border-bottom-color: #ffffff; }
+.tab-content { background: #ffffff; border-radius: 0 2px 2px 2px; padding: 28px; border: 1px solid #d1d5db; }
+.tab-content h3 { color: #1a3a5c; margin-top: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; }
+.rendered-report { font-size: 0.92em; line-height: 1.7; }
+.rendered-report p { margin: 2px 0; }
+.rendered-report br { line-height: 0.5; }
+.rendered-report h1, .rendered-report h2 { color: #1a3a5c; margin: 16px 0 4px; }
+.rendered-report h3, .rendered-report h4 { color: #1a3a5c; font-size: 0.95em; margin: 8px 0 2px; }
+.rendered-report strong { color: #1a3a5c; }
+.cite { color: #1a3a5c; font-weight: 600; font-size: 0.85em; }
+.rendered-report p + .md-table { margin-top: -1.2em; }
+.md-table { width: 100%; border-collapse: collapse; margin: -12px 0 12px; border: 1px solid #d1d5db; overflow: hidden; }
+.md-table th { padding: 6px 8px; text-align: left; background: #f0f2f5; color: #1a3a5c; font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.3px; border-bottom: 2px solid #d1d5db; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; }
+.md-table td { padding: 6px 8px; border-bottom: 1px solid #e5e7eb; font-size: 0.8em; }
+.md-table tr:nth-child(even) td { background: #f8f9fa; }
+.disclaimer { text-align: center; font-size: 0.75em; color: #9ca3af; margin-top: 40px; padding-top: 16px; border-top: 1px solid #e5e7eb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; }
+@media print { .tab-bar { display: none; } .tab-content { display: block !important; border: none; page-break-inside: avoid; } }
+</style></head><body>
+<div class="container">
+<h1>Macroeconomic Research Synthesis</h1>
+<p class="subtitle">Approach Comparison | Generated: 2026-04-05 13:41 | Judge: anthropic/claude-sonnet-4</p>
+<p class="subtitle">Ranking: Chain of Thought > Few Shot > Zero Shot > Agent > Quant > RAG</p>
+
+<h2>Approach Scores</h2>
+<div class="cards">
+        <div class="card winner">
+            <h3>#1 Chain of Thought</h3>
+            <div class="score">3.65<span class="score-max">/5.0</span></div>
+            <div class="metrics">
+                Words: 761 | Citations: 17 | Sections: 1
+            </div>
+            <div class="sw-section"><strong class="sw-good">Strengths</strong><ul><li>Strong integration of multiple data sources including FRED indicators, news articles, and proprietary MacroModel forecasts to build a comprehensive market view</li><li>Clear analytical framework with systematic progression from identifying key signals to determining risk sentiment to asset class implications</li><li>Good use of specific quantitative data points with proper context including month-over-month and year-over-year changes</li></ul></div>
+            <div class="sw-section"><strong class="sw-bad">Weaknesses</strong><ul><li>Limited justification for the MacroModel's S&amp;P 500 target of 7,250 and how the macro drivers translate to that specific price level</li><li>Risk scenarios are provided but lack detailed explanation of the probability or catalysts that would drive bull vs bear outcomes</li><li>Some disconnection between the identified risk-off environment and the relatively optimistic 12-month equity target without sufficient explanation of the transition timing</li></ul></div>
+        </div>
+        <div class="card ">
+            <h3>#2 Few Shot</h3>
+            <div class="score">3.00<span class="score-max">/5.0</span></div>
+            <div class="metrics">
+                Words: 731 | Citations: 14 | Sections: 2
+            </div>
+            <div class="sw-section"><strong class="sw-good">Strengths</strong><ul><li>Comprehensive use of economic indicators with specific data points and citations</li><li>Well-structured presentation with clear sections covering different aspects of the macroeconomic environment</li><li>Strong integration of multiple data sources including market indices, economic indicators, and news articles</li></ul></div>
+            <div class="sw-section"><strong class="sw-bad">Weaknesses</strong><ul><li>MacroModel forecast methodology lacks transparency and the factor contributions appear arbitrary without clear economic rationale</li><li>Risk analysis is superficial with limited discussion of downside scenarios or probability assessments</li><li>Investment strategy recommendations are generic and don't clearly connect to the specific macroeconomic analysis presented</li></ul></div>
+        </div>
+        <div class="card ">
+            <h3>#3 Zero Shot</h3>
+            <div class="score">2.90<span class="score-max">/5.0</span></div>
+            <div class="metrics">
+                Words: 661 | Citations: 25 | Sections: 3
+            </div>
+            <div class="sw-section"><strong class="sw-good">Strengths</strong><ul><li>Comprehensive use of economic data with 25 citations from FRED indicators and news sources</li><li>Clear identification of key macroeconomic themes including inflation, interest rates, and geopolitical tensions</li><li>Good integration of current economic conditions with market performance metrics</li></ul></div>
+            <div class="sw-section"><strong class="sw-bad">Weaknesses</strong><ul><li>Weak justification for the S&amp;P 500 target of 7,250 - the MacroModel coefficients are presented without explanation of methodology or confidence intervals</li><li>Superficial risk analysis that mentions volatility but fails to quantify scenarios or provide comprehensive upside/downside cases</li><li>Limited analytical depth in connecting macro conditions to specific investment implications beyond generic sector suggestions</li></ul></div>
+        </div>
+        <div class="card ">
+            <h3>#4 Agent</h3>
+            <div class="score">2.75<span class="score-max">/5.0</span></div>
+            <div class="metrics">
+                Words: 918 | Citations: 16 | Sections: 10
+            </div>
+            <div class="sw-section"><strong class="sw-good">Strengths</strong><ul><li>Comprehensive data integration across multiple asset classes (equities, bonds, commodities, volatility) providing a holistic market view</li><li>Strong use of current market data with specific price levels and percentage changes for context</li><li>Well-structured analysis covering different market segments with clear thematic organization</li></ul></div>
+            <div class="sw-section"><strong class="sw-bad">Weaknesses</strong><ul><li>MacroModel predictions lack transparency in methodology and the specific drivers mentioned (Labor Force Participation +232.8) are not clearly explained or justified</li><li>Price targets and forecasts are presented without sufficient explanation of the underlying assumptions or confidence intervals</li><li>Limited discussion of interconnections between macroeconomic factors and how they might compound or offset each other</li></ul></div>
+        </div>
+        <div class="card ">
+            <h3>#5 Quant</h3>
+            <div class="score">2.45<span class="score-max">/5.0</span></div>
+            <div class="metrics">
+                Words: 258 | Citations: 13 | Sections: 0
+            </div>
+            <div class="sw-section"><strong class="sw-good">Strengths</strong><ul><li>Comprehensive quantitative data sourcing with 13 FRED economic indicators providing solid empirical foundation</li><li>Clear model transparency showing specific feature coefficients and their directional impacts on S&amp;P 500 forecasts</li><li>Well-structured presentation with logical flow from current conditions to forecast methodology to specific predictions</li></ul></div>
+            <div class="sw-section"><strong class="sw-bad">Weaknesses</strong><ul><li>Complete absence of qualitative macroeconomic analysis or narrative explaining the economic logic behind the statistical relationships</li><li>No discussion of model limitations, assumptions, or potential structural breaks that could invalidate historical relationships</li><li>Risk analysis limited to simple +/- RMSE scenarios without consideration of tail risks, policy changes, or black swan events</li></ul></div>
+        </div>
+        <div class="card ">
+            <h3>#6 RAG</h3>
+            <div class="score">2.35<span class="score-max">/5.0</span></div>
+            <div class="metrics">
+                Words: 457 | Citations: 12 | Sections: 0
+            </div>
+            <div class="sw-section"><strong class="sw-good">Strengths</strong><ul><li>Good use of multiple data sources with proper citations including specific numerical values</li><li>Covers key macroeconomic indicators systematically (GDP, inflation, interest rates, market performance)</li><li>Includes quantitative S&amp;P 500 forecast with bull/bear scenarios</li></ul></div>
+            <div class="sw-section"><strong class="sw-bad">Weaknesses</strong><ul><li>Lacks deep analysis of how macroeconomic factors specifically translate to investment implications</li><li>Limited discussion of policy responses or central bank reaction function</li><li>Investment recommendations are vague and generic rather than actionable</li></ul></div>
+        </div></div>
+
+<div class="score-table">
+<h3>Dimension Breakdown</h3>
+<table>
+<tr><th>Dimension</th><th>Weight</th><th>CoT</th><th>Few Shot</th><th>Zero Shot</th><th>Agent</th><th>Quant</th><th>RAG</th></tr>
+<tr><td>Analytical Depth</td><td class="dim-weight">30%</td><td><div class="score-bar-wrap"><div class="score-bar" style="width:80.0%;background:#1a3a5c;"></div><span>4</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:60.0%;background:#b8860b;"></div><span>3</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:60.0%;background:#b8860b;"></div><span>3</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:60.0%;background:#b8860b;"></div><span>3</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:40.0%;background:#9b2c2c;"></div><span>2</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:40.0%;background:#9b2c2c;"></div><span>2</span></div></td></tr><tr><td>Prediction Rationale</td><td class="dim-weight">25%</td><td><div class="score-bar-wrap"><div class="score-bar" style="width:60.0%;background:#b8860b;"></div><span>3</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:40.0%;background:#9b2c2c;"></div><span>2</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:40.0%;background:#9b2c2c;"></div><span>2</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:40.0%;background:#9b2c2c;"></div><span>2</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:40.0%;background:#9b2c2c;"></div><span>2</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:40.0%;background:#9b2c2c;"></div><span>2</span></div></td></tr><tr><td>Evidence Use</td><td class="dim-weight">25%</td><td><div class="score-bar-wrap"><div class="score-bar" style="width:80.0%;background:#1a3a5c;"></div><span>4</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:80.0%;background:#1a3a5c;"></div><span>4</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:80.0%;background:#1a3a5c;"></div><span>4</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:60.0%;background:#b8860b;"></div><span>3</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:60.0%;background:#b8860b;"></div><span>3</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:60.0%;background:#b8860b;"></div><span>3</span></div></td></tr><tr><td>Risk Coverage</td><td class="dim-weight">10%</td><td><div class="score-bar-wrap"><div class="score-bar" style="width:60.0%;background:#b8860b;"></div><span>3</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:40.0%;background:#9b2c2c;"></div><span>2</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:40.0%;background:#9b2c2c;"></div><span>2</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:60.0%;background:#b8860b;"></div><span>3</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:40.0%;background:#9b2c2c;"></div><span>2</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:40.0%;background:#9b2c2c;"></div><span>2</span></div></td></tr><tr><td>Coherence</td><td class="dim-weight">10%</td><td><div class="score-bar-wrap"><div class="score-bar" style="width:80.0%;background:#1a3a5c;"></div><span>4</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:80.0%;background:#1a3a5c;"></div><span>4</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:60.0%;background:#b8860b;"></div><span>3</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:60.0%;background:#b8860b;"></div><span>3</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:80.0%;background:#1a3a5c;"></div><span>4</span></div></td><td><div class="score-bar-wrap"><div class="score-bar" style="width:60.0%;background:#b8860b;"></div><span>3</span></div></td></tr>
+<tr style="font-weight:bold;border-top:2px solid #1a3a5c;"><td style="color:#1a3a5c;">Weighted Total</td><td></td><td style="color:#b8860b;font-weight:700;">3.65</td><td style="color:#b8860b;font-weight:700;">3.00</td><td style="color:#b8860b;font-weight:700;">2.90</td><td style="color:#b8860b;font-weight:700;">2.75</td><td style="color:#b8860b;font-weight:700;">2.45</td><td style="color:#b8860b;font-weight:700;">2.35</td></tr>
+</table>
+</div>
+
+<h2>Full Reports</h2>
+<div class="tab-bar"><button class="tab-btn active" onclick="switchTab(event,'quant')">Quant</button>
+<button class="tab-btn " onclick="switchTab(event,'zero_shot')">Zero Shot</button>
+<button class="tab-btn " onclick="switchTab(event,'few_shot')">Few Shot</button>
+<button class="tab-btn " onclick="switchTab(event,'chain_of_thought')">Chain of Thought</button>
+<button class="tab-btn " onclick="switchTab(event,'rag')">RAG</button>
+<button class="tab-btn " onclick="switchTab(event,'agent')">Agent</button>
+</div>
+
+        <div class="tab-content" id="tab-quant" style="display:block;">
+            <h3>Quant — Full Report</h3>
+            <div class="rendered-report"><p>=== QUANTITATIVE MACRO FORECAST (MacroModel LinearRegression) ===</p>
+<p>Generated: 2026-04-05 13:41</p>
+<br>
+<p>Current S&amp;P 500 (FRED): 6,583</p>
+<p>Walk-forward RMSE:      851 points</p>
+<p>Training end date:      2024-12-02</p>
+<p>Walk-forward years:     3</p>
+<br>
+<p>--- 12-Month Monthly Forecast Path ---</p>
+<p>Month  1 (2026-05-03):    7,250  ▲10.1% from today</p>
+<p>Month  2 (2026-06-02):    7,185  ▲9.2% from today</p>
+<p>Month  3 (2026-07-02):    6,944  ▲5.5% from today</p>
+<p>Month  4 (2026-08-01):    6,582  ▼0.0% from today</p>
+<p>Month  5 (2026-08-31):    6,279  ▼4.6% from today</p>
+<p>Month  6 (2026-09-30):    6,540  ▼0.6% from today</p>
+<p>Month  7 (2026-10-30):    6,471  ▼1.7% from today</p>
+<p>Month  8 (2026-11-29):    6,484  ▼1.5% from today</p>
+<p>Month  9 (2026-12-29):    6,719  ▲2.1% from today</p>
+<p>Month 10 (2027-01-28):    6,753  ▲2.6% from today</p>
+<p>Month 11 (2027-02-27):    7,130  ▲8.3% from today</p>
+<p>Month 12 (2027-03-29):    7,118  ▲8.1% from today</p>
+<br>
+<p>--- 12-Month Forecast Summary ---</p>
+<p>End-of-horizon target: 7,118  (+8.1% from today)</p>
+<p>Model RMSE:            ±851 points</p>
+<p>Bull scenario (+1 RMSE): 7,970</p>
+<p>Bear scenario (-1 RMSE): 6,267</p>
+<br>
+<p>--- Top Feature Coefficients (360-day horizon model) ---</p>
+<p>Treasury_10Y_2Y_Spread                            : -360.2264</p>
+<p>Labor_Force_Participation                         : +232.8351</p>
+<p>Core_CPI                                          : +138.4556</p>
+<p>Federal_Funds_Rate                                : -103.8402</p>
+<p>CPI_All_Items                                     : -90.1721</p>
+<p>Industrial_Production                             : -64.0798</p>
+<p>Unemployment_Rate                                 : +58.1961</p>
+<p>ICE_BofA_US_High_Yield_Index_OAS                  : -53.0169</p>
+<p>Treasury_10Y                                      : -46.1626</p>
+<p>PCE_Price_Index                                   : +38.9819</p>
+<br>
+<p>--- FRED Macro Context (selected indicators) ---</p>
+<p>10 year real interest rate                        : 1.62  MoM=-7.44%  YoY=-17.38%</p>
+<p>ICE BofA US High Yield Index OAS                  : 3.17  MoM=+7.46%  YoY=+17.84%</p>
+<p>CPI All Items                                     : 327.46  MoM=+0.00%  YoY=+3.45%</p>
+<p>Federal Funds Rate                                : 3.64  MoM=+0.00%  YoY=-21.55%</p>
+<p>SP500                                             : 6582.69  MoM=-3.73%  YoY=+9.73%</p>
+<p>Treasury 10Y 2Y Spread                            : 0.51  MoM=-15.00%  YoY=+750.00%</p>
+<p>Treasury 10Y                                      : 4.31  MoM=+6.95%  YoY=+1.41%</p>
+<p>Unemployment Rate                                 : 4.30  MoM=-2.27%  YoY=+2.38%</p>
+<p>M2 Money Supply                                   : 22667.30  MoM=+0.00%  YoY=+5.67%</p>
+<p>Real GDP                                          : 24065.96  MoM=+0.00%  YoY=+2.03%</p></div>
+        </div>
+        <div class="tab-content" id="tab-zero_shot" style="display:none;">
+            <h3>Zero Shot — Full Report</h3>
+            <div class="rendered-report"><h3>US Investment Outlook Report</h3>
+<br>
+<p>The current macroeconomic environment presents a mixed picture for US investors, characterized by steady inflation, a flattening yield curve, and geopolitical tensions that are influencing both monetary policy and market sentiment. The Federal Funds Rate (FEDFUNDS) stands at 3.64%, a year-over-year decrease of 21.55%, while the 10-year real interest rate (REAINTRATREARAT10Y) has dropped by 17.38% year-over-year to 1.62% [FRED indicators]. These interest rate dynamics suggest a cautious approach from the Federal Reserve, which is likely to maintain rates steady amid economic and geopolitical uncertainties, as indicated in [Article 2] "Fed meeting updates: FOMC set to hold rates steady as oil prices soar" and [Article 3] "US Fed keeps interest rates steady amid economic, geopolitical uncertainty".</p>
+<br>
+<p>Inflation remains a key concern, with the Consumer Price Index (CPIAUCSL) increasing by 3.45% year-over-year to 327.46, driven partly by higher oil prices due to geopolitical tensions [FRED indicators, [Article 12] "US inflation rises 0.3% in February, on expected lines amid rising oil prices"]. The Core CPI (CPILFESL) has also risen by 3.36% year-over-year to 333.51, indicating broad-based price pressures [FRED indicators]. These inflationary trends are likely to persist, potentially impacting consumer spending and business investment.</p>
+<br>
+<p>The stock market has shown some volatility, with the S&amp;P 500 (SP500) currently at 6,582.69, down 3.73% month-over-month and up 9.73% year-over-year [FRED indicators]. The MacroModel forecasts the S&amp;P 500 to reach 7,250 by Month 1 (May 2026), driven by factors such as the Labor Force Participation (+232.8) and Core CPI (+138.4556), while being negatively impacted by the Treasury 10Y 2Y Spread (-360.2264) and the Federal Funds Rate (-103.8402) [MacroModel forecast]. However, the VIX (VIXCLS) stands at 24.54, up 16.80% month-over-month and 74.04% year-over-year, signaling increased market uncertainty and risk aversion [FRED indicators].</p>
+<br>
+<p>Labor market data is mixed, with the Unemployment Rate (UNRATE) at 4.3%, down 2.27% month-over-month and up 2.38% year-over-year, and Nonfarm Payrolls (PAYEMS) increasing by 0.11% month-over-month and 0.35% year-over-year [FRED indicators]. These figures suggest a labor market that is cooling but remains resilient. However, concerns over a potential slowdown are evident in [Article 20] "How badly has the Iran war hit the global economy? The tell-tale signs", which highlights the economic impacts of the ongoing conflict in the Middle East.</p>
+<br>
+<h3>Conclusion</h3>
+<p>US investors should remain cautious in the face of these mixed signals. The combination of steady inflation, a flattening yield curve, and geopolitical tensions suggests that the market may experience continued volatility. The MacroModel forecast indicates a positive outlook for the S&amp;P 500 in the short term, but investors should be prepared for potential headwinds. Diversification and a focus on sectors that can weather economic and geopolitical storms, such as technology and healthcare, may be prudent strategies.</p>
+<br>
+<h2>References</h2>
+<ul>
+<li><strong>FRED Indicators:</strong></li>
+<li>Federal Funds Rate (FEDFUNDS)</li>
+<li>10 year real interest rate (REAINTRATREARAT10Y)</li>
+<li>ICE BofA US High Yield Index OAS (BAMLH0A0HYM2)</li>
+<li>CPI All Items (CPIAUCSL)</li>
+<li>SP500 (SP500)</li>
+<li>Treasury 10Y 2Y Spread (T10Y2Y)</li>
+<li>Treasury 10Y (DGS10)</li>
+<li>Unemployment Rate (UNRATE)</li>
+<li>M2 Money Supply (M2SL)</li>
+<li>Real GDP (GDPC1)</li>
+<li>GDP (GDP)</li>
+<li>VIX (VIXCLS)</li>
+<li>Nonfarm Payrolls (PAYEMS)</li>
+<li>Core CPI (CPILFESL)</li>
+<li>Industrial Production (INDPRO)</li>
+<li>Consumer Sentiment (UMCSENT)</li>
+<li>Housing Starts (HOUST)</li>
+<li>Fed Debt Pct GDP (GFDEGDQ188S)</li>
+<li>Labor Force Participation (CIVPART)</li>
+<li>PCE Price Index (PCEPI)</li>
+</ul>
+<br>
+<ul>
+<li><strong>News Articles:</strong></li>
+<li>[Article 2] "Fed meeting updates: FOMC set to hold rates steady as oil prices soar" - Business Insider</li>
+<li>[Article 3] "US Fed keeps interest rates steady amid economic, geopolitical uncertainty" - Al Jazeera English</li>
+<li>[Article 12] "US inflation rises 0.3% in February, on expected lines amid rising oil prices" - The Times of India</li>
+<li>[Article 20] "How badly has the Iran war hit the global economy? The tell-tale signs" - Al Jazeera English</li>
+</ul>
+<br>
+<ul>
+<li><strong>MacroModel Forecast:</strong></li>
+<li>S&amp;P 500 forecast for May 2026: 7,250</li>
+<li>Drivers: Labor Force Participation (+232.8), Core CPI (+138.4556), Treasury 10Y 2Y Spread (-360.2264), Federal Funds Rate (-103.8402), CPI All Items (-90.1721)</li>
+</ul></div>
+        </div>
+        <div class="tab-content" id="tab-few_shot" style="display:none;">
+            <h3>Few Shot — Full Report</h3>
+            <div class="rendered-report"><h3>Macroeconomic Outlook for US Investors</h3>
+<br>
+<p>The current macroeconomic environment presents a mix of favorable and unfavorable signals for US investors. The S&amp;P 500 Index (SP500) has declined by 3.73% over the past month, closing at 6,582.69 [SP500: S&amp;P 500 ETF (-3.73%) MoM, +9.73% YoY]. This decline is partially driven by increased market volatility, as reflected in the VIX (VIXCLS) surging by 16.80% to 24.54 [VIXCLS: VIX Volatility Index (+16.80%) MoM, +74.04% YoY].</p>
+<br>
+<h4>Key Economic Indicators:</h4>
+<ul>
+<li><strong>Inflation</strong>: The Consumer Price Index (CPIAUCSL) remains stable, with a year-over-year increase of 3.45% [CPIAUCSL: CPI All Items (+3.45% YoY)]. However, the Core CPI (CPILFESL) is also up by 3.36% YoY [CPILFESL: Core CPI (+3.36% YoY)], indicating persistent inflationary pressures.</li>
+<li><strong>Interest Rates</strong>: The Federal Funds Rate (FEDFUNDS) is steady at 3.64% [FEDFUNDS: Federal Funds Rate (+0.00% MoM, -21.55% YoY)]. According to [Article 2] "Fed meeting updates: FOMC set to hold rates steady," the Fed is likely to maintain this rate despite rising oil prices.</li>
+<li><strong>Treasury Yields</strong>: The 10-Year Treasury Yield (DGS10) has increased by 6.95% MoM to 4.31%, while the 10-Year to 2-Year yield spread (T10Y2Y) has narrowed to 0.51% [DGS10: 10-Year Treasury Yield (+6.95% MoM, +1.41% YoY), T10Y2Y: 10-Year to 2-Year Spread (-15.00% MoM, +750.00% YoY)]. This narrowing spread suggests a potential slowdown in economic growth.</li>
+<li><strong>Labor Market</strong>: The Unemployment Rate (UNRATE) has decreased slightly to 4.3%, but the Labor Force Participation Rate (CIVPART) has declined by 0.16% MoM to 61.9% [UNRATE: Unemployment Rate (-2.27% MoM, +2.38% YoY), CIVPART: Labor Force Participation (-0.16% MoM, -0.80% YoY)].</li>
+</ul>
+<br>
+<h4>Market Sentiment and Economic Developments:</h4>
+<ul>
+<li><strong>Geopolitical Uncertainty</strong>: The ongoing conflict in Iran has led to a surge in oil prices, further complicating the economic outlook [Article 10: "Biggest oil supply shock ever: Five things to know in Bitcoin this week"]. This geopolitical tension has the potential to push inflation higher and dampen economic growth.</li>
+<li><strong>Consumer Sentiment</strong>: The Consumer Sentiment Index (UMCSENT) has decreased by 21.17% YoY to 56.6, indicating a decline in consumer confidence [UMCSENT: Consumer Sentiment (-21.17% YoY)].</li>
+<li><strong>Industrial Activity</strong>: Industrial Production (INDPRO) is up by 3.28% YoY, suggesting continued growth in manufacturing and industrial sectors [INDPRO: Industrial Production (+3.28% YoY)].</li>
+</ul>
+<br>
+<h4>MacroModel Forecast:</h4>
+<p>The MacroModel projects the S&amp;P 500 to reach 7,250 by Month 1 (May 2026), representing a 10.1% increase from the current level. This forecast is driven primarily by:</p>
+<ul>
+<li><strong>Labor Force Participation (+232.8)</strong>: Higher participation in the labor force is expected to boost economic activity.</li>
+<li><strong>Core CPI (+138.4556)</strong>: Persistent core inflation is anticipated to support consumer spending and corporate earnings.</li>
+<li><strong>Treasury 10Y 2Y Spread (-360.2264)</strong>: The narrowing yield spread is a negative factor, signaling concerns about economic growth.</li>
+<li><strong>Federal Funds Rate (-103.8402)</strong>: The current stable rate environment is expected to continue supporting equity valuations.</li>
+</ul>
+<br>
+<h4>Investment Strategy:</h4>
+<ul>
+<li><strong>Equities</strong>: Despite the recent pullback, the MacroModel forecast suggests a potential rebound in the S&amp;P 500. Investors should consider maintaining a balanced equity portfolio, focusing on growth and value sectors.</li>
+<li><strong>Fixed Income</strong>: The increase in 10-Year Treasury yields offers opportunities in fixed income, particularly in Treasuries and high-quality corporate bonds.</li>
+<li><strong>Commodities</strong>: Given the geopolitical tensions and potential supply shocks, commodities, especially energy and precious metals, may offer hedge benefits.</li>
+<li><strong>Defensive Assets</strong>: With rising market volatility, investors should consider increasing allocations to defensive assets such as gold and cash.</li>
+</ul>
+<br>
+<h2>References</h2>
+<ul>
+<li>SP500: S&amp;P 500 ETF (6,582.69, -3.73% MoM, +9.73% YoY)</li>
+<li>VIXCLS: VIX Volatility Index (24.54, +16.80% MoM, +74.04% YoY)</li>
+<li>CPIAUCSL: CPI All Items (327.46, +3.45% YoY)</li>
+<li>CPILFESL: Core CPI (333.51, +3.36% YoY)</li>
+<li>FEDFUNDS: Federal Funds Rate (3.64, +0.00% MoM, -21.55% YoY)</li>
+<li>DGS10: 10-Year Treasury Yield (4.31, +6.95% MoM, +1.41% YoY)</li>
+<li>T10Y2Y: 10-Year to 2-Year Spread (0.51, -15.00% MoM, +750.00% YoY)</li>
+<li>UNRATE: Unemployment Rate (4.3, -2.27% MoM, +2.38% YoY)</li>
+<li>CIVPART: Labor Force Participation (61.9, -0.16% MoM, -0.80% YoY)</li>
+<li>UMCSENT: Consumer Sentiment (56.6, -21.17% YoY)</li>
+<li>INDPRO: Industrial Production (102.55, +3.28% YoY)</li>
+<li>[Article 2]: Fed meeting updates: FOMC set to hold rates steady as oil prices soar (Business Insider, 2026-03-18)</li>
+<li>[Article 10]: Biggest oil supply shock ever: Five things to know in Bitcoin this week (Cointelegraph, 2026-03-09)</li>
+<li>MacroModel: S&amp;P 500 forecast (7,250 by Month 1, +10.1% from today) driven by Labor Force Participation (+232.8), Core CPI (+138.4556), Treasury 10Y 2Y Spread (-360.2264), Federal Funds Rate (-103.8402), CPI All Items (-90.1721)</li>
+</ul></div>
+        </div>
+        <div class="tab-content" id="tab-chain_of_thought" style="display:none;">
+            <h3>Chain of Thought — Full Report</h3>
+            <div class="rendered-report"><h3>Analysis</h3>
+<br>
+<h4>Step 1: Identify the 2-3 Most Significant Signals in the Data</h4>
+<br>
+<p>1. <strong>10-Year Real Interest Rate (REAINTRATREARAT10Y): 1.62%</strong> [2026-04-03] MoM: -7.44% YoY: -17.38%</p>
+<ul>
+<li>The significant decline in the real interest rate suggests that inflation expectations are rising faster than nominal interest rates, which can be a sign of economic uncertainty.</li>
+</ul>
+<br>
+<p>2. <strong>VIX (VIXCLS): 24.54</strong> [2026-04-03] MoM: +16.80% YoY: +74.04%</p>
+<ul>
+<li>The VIX, often referred to as the "fear gauge," has seen a substantial increase, indicating heightened market volatility and risk aversion among investors.</li>
+</ul>
+<br>
+<p>3. <strong>SP500 (SP500): 6582.69</strong> [2026-04-03] MoM: -3.73% YoY: +9.73%</p>
+<ul>
+<li>The S&amp;P 500 has declined sharply over the last month, reflecting a pullback in equity markets. However, it is still up year-over-year, suggesting some underlying strength or optimism.</li>
+</ul>
+<br>
+<h4>Step 2: Determine Whether Conditions Are Risk-On or Risk-Off</h4>
+<br>
+<ul>
+<li><strong>Risk-Off Conditions:</strong> The recent market developments and economic indicators point to a risk-off environment.</li>
+<li>The <strong>Fed's decision to hold interest rates steady</strong> amid a cooling labor market and geopolitical tensions [Article 2, Article 3, Article 5] signals caution.</li>
+<li>The <strong>increase in the VIX</strong> to 24.54, which is above the long-term average, indicates elevated investor anxiety.</li>
+<li>The <strong>decline in the S&amp;P 500</strong> by 3.73% over the past month suggests that investors are reacting to ongoing uncertainties, such as the Middle East conflict and rising oil prices [Article 19, Article 20].</li>
+</ul>
+<br>
+<h4>Step 3: Assess Implications for Equities, Bonds, and Commodities</h4>
+<br>
+<ul>
+<li><strong>Equities:</strong></li>
+<li>The MacroModel forecasts the S&amp;P 500 to rebound to 7,250 by May 2026, driven primarily by <strong>Labor Force Participation (+232.8)</strong> and <strong>Core CPI (+138.4)</strong>. However, the short-term decline in the 10-year real interest rate and the rise in the VIX suggest near-term volatility.</li>
+<li><strong>Bull Scenario (+1 RMSE):</strong> 7,970</li>
+<li><strong>Bear Scenario (-1 RMSE):</strong> 6,267</li>
+</ul>
+<br>
+<ul>
+<li><strong>Bonds:</strong></li>
+<li>The <strong>10-year Treasury yield (DGS10)</strong> has increased by 6.95% MoM to 4.31%, which is positive for bond yields but negative for bond prices.</li>
+<li>The <strong>Treasury 10Y 2Y Spread (T10Y2Y)</strong> has narrowed to 0.51, which is a significant decrease from the previous year, indicating potential concerns about the economic outlook and recession risks.</li>
+</ul>
+<br>
+<ul>
+<li><strong>Commodities:</strong></li>
+<li>The <strong>rise in oil prices</strong> due to the Middle East conflict [Article 10, Article 19] is likely to impact commodity prices, particularly oil and gas, leading to higher inflationary pressures.</li>
+<li>The <strong>ICE BofA US High Yield Index OAS (BAMLH0A0HYM2)</strong> has increased by 7.46% MoM, suggesting that credit spreads are widening, which could be a sign of growing risk aversion among fixed-income investors.</li>
+</ul>
+<br>
+<h4>Step 4: Final Investment Outlook</h4>
+<br>
+<p>The current macroeconomic environment is characterized by elevated risk and uncertainty, driven by geopolitical tensions, rising oil prices, and a cautious Fed. The S&amp;P 500 has experienced a significant pullback, and the VIX's spike indicates heightened market volatility. While the MacroModel projects a rebound in equities over the next few months, driven by labor force participation and core CPI, the near-term outlook remains cautious.</p>
+<br>
+<p>For equities, we expect continued volatility in the short term, with a potential near-term bottom followed by a moderate recovery. Investors should consider a balanced approach, focusing on defensive sectors and companies with strong fundamentals. In the bond market, the yield curve's flattening suggests caution, and investors may want to favor shorter-duration bonds. For commodities, the rise in oil prices presents both inflationary risks and opportunities for investors in energy-related assets.</p>
+<br>
+<h4>Step 5: References</h4>
+<br>
+<ul>
+<li><strong>FRED Indicators:</strong></li>
+<li>10-Year Real Interest Rate (REAINTRATREARAT10Y)</li>
+<li>VIX (VIXCLS)</li>
+<li>SP500 (SP500)</li>
+<li>Treasury 10Y 2Y Spread (T10Y2Y)</li>
+<li>Treasury 10Y (DGS10)</li>
+<li>ICE BofA US High Yield Index OAS (BAMLH0A0HYM2)</li>
+<li>Labor Force Participation (CIVPART)</li>
+<li>Core CPI (CPILFESL)</li>
+</ul>
+<br>
+<ul>
+<li><strong>News Articles:</strong></li>
+<li>[Article 2] Fed meeting updates: FOMC set to hold rates steady as oil prices soar (Business Insider)</li>
+<li>[Article 3] US Fed keeps interest rates steady amid economic, geopolitical uncertainty (Al Jazeera English)</li>
+<li>[Article 5] Federal Reserve opts for no interest rate change despite labor slowdown ‘some argue’ should trigger reduction (WND.com)</li>
+<li>[Article 10] Biggest oil supply shock ever: Five things to know in Bitcoin this week (Cointelegraph)</li>
+<li>[Article 19] US stock market deep in red today: Why Dow Jones, S&amp;P 500 and Nasdaq crash again - Dow drops 600 points and Nasdaq sinks over 350 (The Times of India)</li>
+<li>[Article 20] How badly has the Iran war hit the global economy? The tell-tale signs (Al Jazeera English)</li>
+</ul>
+<br>
+<ul>
+<li><strong>MacroModel Forecast:</strong></li>
+<li>12-Month Monthly Forecast for S&amp;P 500</li>
+<li>Top Macro Drivers: Treasury 10Y 2Y Spread, Labor Force Participation, Core CPI, Federal Funds Rate, CPI All Items</li>
+</ul></div>
+        </div>
+        <div class="tab-content" id="tab-rag" style="display:none;">
+            <h3>RAG — Full Report</h3>
+            <div class="rendered-report"><p>The current macroeconomic outlook for US investors is mixed, with several key indicators painting a complex picture. The GDP for the 2025 fourth quarter was revised down to 0.7%, from an initial estimate of 1.4%, which is a notable deceleration from the 4.4% growth in the third quarter [Source 1]. This slowdown in economic growth, coupled with the threat of rising oil prices due to the Iran war, could lead to inflationary pressures. Economists warn that war-driven oil spikes could push US inflation above 4% soon [Article 17].</p>
+<br>
+<p>Inflation, as measured by the Consumer Price Index (CPI), has remained steady at 2.4% in February [Article 15], and the latest CPI All Items (CPIAUCSL) stands at 327.46, with a year-over-year increase of 3.45% [Source 2]. However, the Federal Funds Rate (FEDFUNDS) is at 3.64%, unchanged from the previous month [Source 2], suggesting that the Federal Reserve is maintaining its current monetary policy stance despite inflation concerns.</p>
+<br>
+<p>The stock market has shown volatility, with the S&amp;P 500 (SP500) currently at 6,582.69, a month-over-month decrease of 3.73% [Source 2]. The financial market is also facing downward pressure, as evidenced by the significant drops in the Dow Jones, S&amp;P 500, and Nasdaq, partly due to rising oil prices near $100 and escalating Middle East tensions [Article 19]. The Quantitative S&amp;P 500 Forecast suggests a 12-month forecast with the S&amp;P 500 reaching 7,118, indicating an 8.1% increase from the current level, but with potential bull and bear scenarios of 7,970 and 6,267, respectively [Source 3].</p>
+<br>
+<p>The 10-year real interest rate (REAINTRATREARAT10Y) is at 1.62%, showing a month-over-month decline of 7.44% and a year-over-year decline of 17.38%, which might reflect market concerns about economic growth [Source 2]. The Treasury 10Y 2Y Spread (T10Y2Y) is at 0.51%, a significant increase year-over-year of 750.00%, which could indicate a positive outlook for economic expansion [Source 2].</p>
+<br>
+<p>In summary, while there are signs of economic strain, particularly in GDP growth and stock market performance, the macroeconomic indicators suggest that the economy is navigating through a period of uncertainty. Investors should remain cautious and monitor key economic data, especially inflation and geopolitical developments, which could impact the market's trajectory. ## References</p>
+<br>
+<p>[Source 1]: Describes the revision of the US GDP for the 2025 fourth quarter and the economic growth context.</p>
+<p>[Source 2]: Provides current macroeconomic indicators including GDP, CPI, Federal Funds Rate, S&amp;P 500, and others.</p>
+<p>[Source 3]: Offers a quantitative forecast for the S&amp;P 500 and top macro drivers affecting the forecast.</p>
+<p>[Article 17]: Discusses the potential impact of the Iran war on US inflation.</p>
+<p>[Article 19]: Describes a significant drop in US stock markets linked to rising oil prices and Middle East tensions.</p>
+<p>[Article 15]: Reports on the stability of US consumer inflation in February 2026.</p></div>
+        </div>
+        <div class="tab-content" id="tab-agent" style="display:none;">
+            <h3>Agent — Full Report</h3>
+            <div class="rendered-report"><h2>Macroeconomic Outlook for US Investors</h2>
+<br>
+<h3>Overview</h3>
+<p>The current macroeconomic landscape for US investors presents a mixed outlook with various indicators pointing in different directions. The S&amp;P 500 (SPY) is at 655.83, down 2.2% over the past 30 days, indicating a NEUTRAL trend. Long-term rates, represented by the 20+ Year Treasury Bond ETF (TLT), are also down 1.5% over the same period, showing a NEUTRAL trend. Gold (GLD), often a safe haven, has seen a significant 9.31% decline, signaling a BEARISH trend. The US Dollar Index ETF (UUP) has risen 1.42%, indicating a NEUTRAL trend, while the High-Yield Corporate Bond ETF (HYG) is up 0.32%, also showing a NEUTRAL trend. The CBOE Volatility Index (^VIX) has dropped 19.06%, suggesting a BEARISH trend.</p>
+<br>
+<h3>Equity Markets</h3>
+<p>The S&amp;P 500 (SPY) is currently at 655.83, down 2.2% over the past 30 days. The MacroModel's 12-month forecast using LinearRegression on 20 FRED series projects a mixed path for the S&amp;P 500, with significant volatility. Key forecast points include:</p>
+<br>
+<ul>
+<li><strong>Month 1</strong> projects 7,250 (+10.1%), driven by Labor Force Participation (+232.8).</li>
+<li><strong>Month 4</strong> projects 6,582 (-0.0%), driven by a neutral trend.</li>
+<li><strong>Month 12</strong> projects 7,118 (+8.1%), driven by a combination of positive and negative macro drivers.</li>
+</ul>
+<br>
+<h3>Bond Markets</h3>
+<p>The 10-Year Treasury Yield (^TNX) is at 4.313, up 4.36% over the past 30 days, indicating a BULLISH trend. The 13-Week Treasury Bill Yield (^IRX) is at 3.607, up 1.04%, showing a NEUTRAL trend. The MacroModel suggests that the Treasury 10Y 2Y Spread (-360.2264) has a significant negative effect on the S&amp;P 500, which could pressure bond prices if the spread widens further.</p>
+<br>
+<h3>Commodities</h3>
+<p>Gold (GLD) has declined 9.31% over the past 30 days, indicating a BEARISH trend. This decline is likely influenced by the strengthening US dollar (UUP) and reduced demand for safe-haven assets. The MacroModel's forecast for the S&amp;P 500 suggests that Gold's decline could be a leading indicator of economic uncertainty.</p>
+<br>
+<h3>Risk Sentiment</h3>
+<p>The CBOE Volatility Index (^VIX) is at 23.87, down 19.06% over the past 30 days, indicating a BEARISH trend. The decline in the VIX suggests reduced market fear, which could be a positive sign for equities in the short term. However, the MacroModel's forecast indicates periods of volatility, with significant pullbacks expected in Months 4 and 5.</p>
+<br>
+<h3>News Analysis</h3>
+<p>1. <strong>Fed/monetary policy</strong>:</p>
+<ul>
+<li>According to [Article 5], the Federal Reserve has opted not to change interest rates despite a labor slowdown, which could impact borrowing costs and mortgages.</li>
+<li>[Article 2] and [Article 3] both indicate that the Fed is likely to hold rates steady due to economic and geopolitical uncertainties, including the energy crisis in Iran.</li>
+</ul>
+<br>
+<p>2. <strong>Inflation/employment</strong>:</p>
+<ul>
+<li>[Article 12] reports that US inflation rose 0.3% in February, driven by higher gasoline costs amid Middle East conflicts. Core CPI rose 0.2%.</li>
+<li>[Article 13] notes that the Fed's preferred inflation gauge came in slightly lower than expected in January, at 2.8% year-over-year.</li>
+<li>[Article 17] warns that war-driven oil spikes could push US inflation above 4% soon.</li>
+</ul>
+<br>
+<p>3. <strong>Geopolitical/market risk</strong>:</p>
+<ul>
+<li>[Article 1] highlights the significant market decline, with the S&amp;P 500 logging its largest weekly decline in nearly 5 months, driven by geopolitical tensions.</li>
+<li>[Article 19] reports that the US stock market is in the red, with the Dow Jones falling 600 points and the Nasdaq dropping over 350 points, largely due to rising oil prices and Middle East tensions.</li>
+</ul>
+<br>
+<h3>Final Analysis</h3>
+<p>The MacroModel's forecast suggests a positive but volatile path for the S&amp;P 500 over the next 12 months. Key drivers include Labor Force Participation (+232.8) and the Treasury 10Y 2Y Spread (-360.2264). The recent decline in the VIX and the NEUTRAL trend in long-term rates offer some comfort, but the significant decline in Gold and the potential for higher oil prices due to geopolitical tensions pose risks.</p>
+<br>
+<h3>Recommendations</h3>
+<ul>
+<li><strong>Equities</strong>: Consider a cautious approach, with a focus on defensive sectors and companies with strong balance sheets.</li>
+<li><strong>Bonds</strong>: Be mindful of the potential for higher yields, which could pressure bond prices.</li>
+<li><strong>Commodities</strong>: The decline in Gold suggests a reduction in safe-haven demand, but the rise in oil prices due to geopolitical tensions could provide opportunities in energy-related commodities.</li>
+<li><strong>Risk Sentiment</strong>: Monitor geopolitical developments and inflation indicators closely, as they could drive market volatility.</li>
+</ul>
+<br>
+<h2>References</h2>
+<p>1. <strong>Macro indicators</strong>:</p>
+<ul>
+<li>(SPY): 655.83</li>
+<li>(TLT): 86.79</li>
+<li>(GLD): 429.41</li>
+<li>(UUP): 27.86</li>
+<li>(HYG): 79.56</li>
+<li>(^VIX): 23.87</li>
+<li>(^TNX): 4.313</li>
+<li>(^IRX): 3.607</li>
+</ul>
+<br>
+<p>2. <strong>News articles</strong>:</p>
+<ul>
+<li>[Article 2] [Business Insider] Fed meeting updates: FOMC set to hold rates steady as oil prices soar</li>
+<li>[Article 3] [Al Jazeera English] US Fed keeps interest rates steady amid economic, geopolitical uncertainty</li>
+<li>[Article 5] [Wnd.com] Federal Reserve opts for no interest rate change despite labor slowdown ‘some argue’ should trigger reduction</li>
+<li>[Article 12] [The Times of India] US inflation rises 0.3% in February, on expected lines amid rising oil prices</li>
+<li>[Article 13] [The Times of India] US Stocks: US Fed's preferred inflation gauge edges down</li>
+<li>[Article 17] [New Zealand Herald] US consumer inflation unchanged but price shocks from Iran war loom</li>
+<li>[Article 1] [Realinvestmentadvice.com] Oppenheimer: The Risk Calculus Has Changed</li>
+<li>[Article 19] [The Times of India] US stock market deep in red today: Why Dow Jones, S&amp;P 500 and Nasdaq crash again - Dow drops 600 points and Nasdaq sinks over 350</li>
+</ul>
+<br>
+<p>3. <strong>MacroModel</strong>:</p>
+<ul>
+<li>Model type: LinearRegression</li>
+<li>Training period: through 2024-12-02</li>
+<li>Walk-forward RMSE: +/-851 points</li>
+</ul></div>
+        </div>
+
+<div class="disclaimer">CS6180 Team 23</div>
+</div>
+
+<script>
+function switchTab(event, approach) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(p => p.style.display = 'none');
+    document.getElementById('tab-' + approach).style.display = 'block';
+    event.target.classList.add('active');
+}
+</script>
+</body></html>
