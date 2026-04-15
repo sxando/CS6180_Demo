@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>CS6180 Team23 — Final Report (AGENT)</title>
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Charter', 'Georgia', 'Times New Roman', serif; background: #ffffff; color: #2c2c2c; max-width: 960px; margin: 0 auto; padding: 0 24px 40px; line-height: 1.65; border-top: 4px solid #1a3a5c; }
+h1 { color: #1a3a5c; font-size: 1.7em; border-bottom: 2px solid #1a3a5c; padding-bottom: 10px; margin-bottom: 4px; }
+h2 { color: #1a3a5c; font-size: 1.2em; margin-top: 30px; border-bottom: 1px solid #d1d5db; padding-bottom: 6px; }
+.meta { color: #6b7280; font-size: 0.85em; margin-bottom: 24px; display: flex; gap: 10px; flex-wrap: wrap; }
+.meta-tag { background: #f8f9fa; color: #1a3a5c; padding: 4px 10px; border: 1px solid #d1d5db; border-radius: 2px; font-size: 0.82em; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; }
+.score-card { background: #f8f9fa; border: 1px solid #d1d5db; border-radius: 2px; padding: 12px 16px; margin: 12px 0; }
+.score-card table { width: 100%; border-collapse: collapse; }
+.score-card th { text-align: left; padding: 4px 6px; border-bottom: 2px solid #1a3a5c; font-size: 0.72em; color: #1a3a5c; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; text-transform: uppercase; letter-spacing: 0.3px; }
+.score-card td { padding: 5px 6px; border-bottom: 1px solid #e5e7eb; font-size: 0.82em; }
+.bar-wrap { display: flex; align-items: center; gap: 6px; }
+.bar { height: 5px; border-radius: 1px; min-width: 4px; }
+.bar-wrap span { font-size: 0.8em; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; }
+.total-row { font-weight: 700; border-top: 2px solid #1a3a5c; }
+.total-row td strong { color: #b8860b; }
+.sw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+.sw-box { background: #f8f9fa; border: 1px solid #d1d5db; border-radius: 2px; padding: 16px; border-left: 4px solid #d1d5db; }
+.sw-box h4 { margin: 0 0 8px; font-size: 0.82em; text-transform: uppercase; letter-spacing: 0.5px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; }
+.sw-box.good { border-left-color: #1a6b3c; }
+.sw-box.good h4 { color: #1a6b3c; }
+.sw-box.bad { border-left-color: #9b2c2c; }
+.sw-box.bad h4 { color: #9b2c2c; }
+.sw-box ul { margin: 0; padding-left: 18px; }
+.sw-box li { font-size: 0.9em; margin: 4px 0; }
+.report { border-top: 1px solid #d1d5db; padding: 28px 0; margin: 16px 0; }
+.report p { margin: 2px 0; }
+.report br { line-height: 0.5; }
+.report h1, .report h2 { color: #1a3a5c; margin: 16px 0 4px; }
+.report h3, .report h4 { color: #1a3a5c; font-size: 0.95em; margin: 8px 0 2px; }
+.cite { color: #1a3a5c; font-weight: 600; font-size: 0.85em; }
+.rendered-report p + .md-table { margin-top: -1.2em; }
+.md-table { width: 100%; border-collapse: collapse; margin: -12px 0 12px; border: 1px solid #d1d5db; overflow: hidden; }
+.md-table th { padding: 6px 8px; text-align: left; background: #f0f2f5; color: #1a3a5c; font-size: 0.75em; text-transform: uppercase; letter-spacing: 0.3px; border-bottom: 2px solid #d1d5db; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; }
+.md-table td { padding: 6px 8px; border-bottom: 1px solid #e5e7eb; font-size: 0.8em; }
+.md-table tr:nth-child(even) td { background: #f8f9fa; }
+.disclaimer { font-size: 0.75em; color: #9ca3af; text-align: center; margin-top: 40px; padding-top: 16px; border-top: 1px solid #e5e7eb; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif; line-height: 1.5; }
+@media print { body { padding: 10px; border-top: none; } .report { border: none; } }
+</style></head><body>
+
+<h1>Macroeconomic Investment Outlook</h1>
+<div class="meta">
+    <span class="meta-tag">Agent</span>
+    <span class="meta-tag">Score: 4.45/5.0</span>
+    <span class="meta-tag">Words: 1923</span>
+    <span class="meta-tag">Citations: 23</span>
+    <span class="meta-tag">Judge: meta-llama/llama-3.3-70b-instruct</span>
+    <span class="meta-tag">2026-04-14 00:38</span>
+</div>
+
+<h2>Evaluation Breakdown</h2>
+<div class="score-card">
+<table>
+<tr><th>Dimension</th><th>Weight</th><th>Score</th></tr>
+<tr>
+            <td>Analytical Depth</td>
+            <td>30%</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:80.0%;background:#1a3a5c;"></div><span>4</span></div></td>
+        </tr><tr>
+            <td>Prediction Rationale</td>
+            <td>25%</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:80.0%;background:#1a3a5c;"></div><span>4</span></div></td>
+        </tr><tr>
+            <td>Evidence Use</td>
+            <td>25%</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:100.0%;background:#1a3a5c;"></div><span>5</span></div></td>
+        </tr><tr>
+            <td>Risk Coverage</td>
+            <td>10%</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:100.0%;background:#1a3a5c;"></div><span>5</span></div></td>
+        </tr><tr>
+            <td>Coherence</td>
+            <td>10%</td>
+            <td><div class="bar-wrap"><div class="bar" style="width:100.0%;background:#1a3a5c;"></div><span>5</span></div></td>
+        </tr>
+<tr class="total-row"><td>Weighted Total</td><td></td><td><strong>4.45/5.0</strong></td></tr>
+</table>
+</div>
+
+<div class="sw-grid">
+    <div class="sw-box good"><h4>Strengths</h4><ul><li>The report provides a comprehensive and well-structured analysis of the macroeconomic investment outlook</li><li>The use of a macro model with specific drivers and coefficients adds depth to the analysis</li><li>The report effectively highlights the key risks and uncertainties associated with the forecast</li></ul></div>
+    <div class="sw-box bad"><h4>Weaknesses</h4><ul><li>The forecast of modest gains of +0.7% over the 12-month horizon seems somewhat uncertain given the wide margin of error</li><li>The report could benefit from more explicit explanations of the macro model's assumptions and limitations</li><li>Some sections, such as the walk-forward RMSE analysis, may require additional context or explanation for non-technical readers</li></ul></div>
+</div>
+
+<h2>Full Report</h2>
+<div class="report"><h1>US Macroeconomic Investment Outlook Report</h1>
+<br>
+<br>
+<h2>Q2 2026 – Q1 2027</h2>
+<br>
+<br>
+<h2>1. Market Overview</h2>
+<br>
+<h3>Equities</h3>
+<p>The S&amp;P 500 (SPY) stands at <strong>686.1</strong>, up <strong>2.83%</strong> over the past 30 days, currently in a <strong>NEUTRAL</strong> trend. The market shows relatively flat performance with moderate volatility. The VIX has declined <strong>18.67%</strong> over 30 days to <strong>19.12</strong>, indicating <strong>LOW FEAR</strong> sentiment — a technically bullish signal for equities as investor anxiety has subsided.</p>
+<br>
+<h3>Bonds</h3>
+<p>Long-term Treasury bonds (TLT) are at <strong>86.75</strong>, down <strong>0.13%</strong> over 30 days, in a <strong>NEUTRAL</strong> trend. The 10-year Treasury yield (^TNX) is at <strong>4.297%</strong>, up <strong>1.82%</strong> over 30 days, reflecting modestly higher long-term rates. The 13-week T-bill yield (^IRX) is at <strong>3.603%</strong>, essentially flat. The spread between 10Y and 2Y yields is a key driver in the MacroModel (coefficient -358.78), with the current yield curve dynamics presenting headwinds for equity valuations.</p>
+<br>
+<h3>Commodities</h3>
+<p>Gold (GLD) is at <strong>435.36</strong>, down <strong>5.44%</strong> over 30 days, in a <strong>BEARISH</strong> trend. This is notable given typical safe-haven flows during geopolitical uncertainty — the decline suggests profit-taking after prior gains or shifting sentiment toward risk assets. The US Dollar Index (UUP) is at <strong>27.38</strong>, down <strong>1.26%</strong>, in a NEUTRAL trend.</p>
+<br>
+<h3>Credit Markets</h3>
+<p>High-yield bonds (HYG) are at <strong>80.26</strong>, up <strong>1.51%</strong> over 30 days, in a NEUTRAL trend. Credit spreads remain relatively stable, neither indicating significant stress nor excessive risk-taking.</p>
+<br>
+<br>
+<h2>2. 12-Month Forecast Table</h2>
+<br>
+<table class="md-table">
+<thead><tr><th>Month</th><th>Date</th><th>S&amp;P 500</th><th>Change</th></tr></thead><tbody>
+<tr><td>Month 1</td><td>2026-05-13</td><td>7,120</td><td><span style="color:#16a34a;font-weight:600;">+3.4%</span></td></tr>
+<tr><td>Month 2</td><td>2026-06-12</td><td>7,029</td><td><span style="color:#16a34a;font-weight:600;">+2.1%</span></td></tr>
+<tr><td>Month 3</td><td>2026-07-12</td><td>6,701</td><td><span style="color:#dc2626;font-weight:600;">-2.7%</span></td></tr>
+<tr><td>Month 4</td><td>2026-08-11</td><td>6,546</td><td><span style="color:#dc2626;font-weight:600;">-4.9%</span></td></tr>
+<tr><td>Month 5</td><td>2026-09-10</td><td>6,222</td><td><span style="color:#dc2626;font-weight:600;">-9.6%</span></td></tr>
+<tr><td>Month 6</td><td>2026-10-10</td><td>6,534</td><td><span style="color:#dc2626;font-weight:600;">-5.1%</span></td></tr>
+<tr><td>Month 7</td><td>2026-11-09</td><td>6,540</td><td><span style="color:#dc2626;font-weight:600;">-5.0%</span></td></tr>
+<tr><td>Month 8</td><td>2026-12-09</td><td>6,479</td><td><span style="color:#dc2626;font-weight:600;">-5.9%</span></td></tr>
+<tr><td>Month 9</td><td>2027-01-08</td><td>6,573</td><td><span style="color:#dc2626;font-weight:600;">-4.5%</span></td></tr>
+<tr><td>Month 10</td><td>2027-02-07</td><td>6,647</td><td><span style="color:#dc2626;font-weight:600;">-3.5%</span></td></tr>
+<tr><td>Month 11</td><td>2027-03-09</td><td>6,955</td><td><span style="color:#16a34a;font-weight:600;">+1.0%</span></td></tr>
+<tr><td>Month 12</td><td>2027-04-08</td><td>6,933</td><td><span style="color:#16a34a;font-weight:600;">+0.7%</span></td></tr>
+</tbody></table>
+<br>
+<p><strong>Base case projects modest gains of +0.7%</strong> over the 12-month horizon, ending at 6,933. The model anticipates a mid-year correction with the weakest point at Month 5 (September 2026) at 6,222 (-9.6%), followed by a recovery into early 2027.</p>
+<br>
+<br>
+<h2>3. Macro Driver Analysis</h2>
+<br>
+<h3>Driver 1: Yield Curve Inversion (Treasury 10Y-2Y Spread)</h3>
+<p><strong>Coefficient: -358.78</strong> (strongest negative driver)</p>
+<br>
+<p><strong>Causal Chain:</strong> Flattening or inverting yield curve (narrowing 10Y-2Y spread) -&gt; banks earn less on maturity transformation (paying short-term deposits while lending long-term at lower rates) -&gt; banks tighten lending standards and reduce credit availability -&gt; reduced credit availability slows corporate investment and consumer spending -&gt; lower earnings growth pressures equity valuations.</p>
+<br>
+<p>The model assigns the highest weight to this indicator, reflecting the historical reliability of the yield curve as a recession predictor. Currently, the 10Y yield at 4.297% and the 2Y at approximately 3.6% indicate a modestly positive spread, but the model's negative coefficient suggests any further flattening would be equity-negative.</p>
+<br>
+<h3>Driver 2: Labor Force Participation</h3>
+<p><strong>Coefficient: +236.27</strong> (strongest positive driver)</p>
+<br>
+<p><strong>Causal Chain:</strong> Rising labor force participation rate -&gt; larger pool of available workers -&gt; increased labor supply eases wage pressure -&gt; corporations benefit from lower unit labor costs -&gt; improved profit margins support higher equity valuations -&gt; stronger consumer spending from higher employment boosts GDP growth.</p>
+<br>
+<p>This is the second-most influential driver, underscoring the importance of labor market health. The news of a "dismal jobs report" and "cooling labour market" [Article 4] represents a negative signal for this driver.</p>
+<br>
+<h3>Driver 3: Federal Funds Rate</h3>
+<p><strong>Coefficient: -100.91</strong> (significant negative driver)</p>
+<br>
+<p><strong>Causal Chain:</strong> Higher Federal Funds Rate -&gt; increased borrowing costs for corporations and consumers -&gt; reduced capital expenditure and durable goods purchases -&gt; slower economic growth -&gt; lower corporate earnings -&gt; reduced equity valuations.</p>
+<br>
+<p>The Fed holding rates steady at 3.5-3.75% [Article 4] reflects a restrictive monetary stance that continues to weigh on valuations, consistent with this negative coefficient.</p>
+<br>
+<h3>Driver 4: Core CPI</h3>
+<p><strong>Coefficient: +137.61</strong> (positive coefficient — requires careful interpretation)</p>
+<br>
+<p><strong>Causal Chain:</strong> Higher Core CPI -&gt; signals persistent inflation -&gt; forces Fed to maintain restrictive policy -&gt; higher rates depress valuations -&gt; HOWEVER, moderate inflation can also indicate economic demand strength.</p>
+<br>
+<p>This counterintuitive positive coefficient may reflect the model's training period where inflation coincided with strong earnings growth. However, the current environment of 3.3% CPI [Article 19] with geopolitical uncertainty creates a challenging dynamic: the Fed is "boxed in" [Article 20] — unable to cut rates due to inflation but facing economic weakness that would normally warrant easing.</p>
+<br>
+<h3>Driver 5: Oil Prices / Geopolitical Risk</h3>
+<p><strong>Coefficient: Not directly captured but material</strong></p>
+<br>
+<p><strong>Causal Chain:</strong> Iran conflict/Strait of Hormuz disruption -&gt; oil supply shock -&gt; higher energy prices -&gt; input cost inflation -&gt; erodes corporate margins -&gt; forces Fed to maintain restrictive stance -&gt; credit tightening -&gt; demand destruction.</p>
+<br>
+<p>The Iran war has driven the largest CPI jump since 2021 [Article 19], directly impacting the inflation outlook and Fed policy trajectory.</p>
+<br>
+<br>
+<h2>4. Model Validation &amp; Limitations</h2>
+<br>
+<h3>Walk-Forward RMSE Analysis</h3>
+<p>The MacroModel's walk-forward RMSE of <strong>+/-851 points</strong> (12.4% of current level) represents significant uncertainty. This means:</p>
+<ul>
+<li><strong>Base case</strong> (6,933) has a confidence range of <strong>6,082 to 7,784</strong></li>
+<li>The bull case (+1 RMSE) of 7,784 and bear case (-1 RMSE) of 6,082 represent the statistical distribution of likely outcomes</li>
+</ul>
+<br>
+<p><strong>Investor Implication:</strong> The wide confidence band means the model is useful for directional guidance but cannot precisely time entry/exit points. The 12-month forecast of +0.7% is essentially flat — within the margin of error.</p>
+<br>
+<h3>Linear vs. Nonlinear Relationships</h3>
+<p>The LinearRegression model <strong>cannot capture</strong>:</p>
+<ul>
+<li><strong>Regime changes:</strong> Sharp transitions between bull/bear markets (e.g., March 2020 COVID crash)</li>
+<li><strong>Nonlinear feedback loops:</strong> When falling prices trigger forced selling, amplifying losses</li>
+<p>, creating amplified moves that a linear model cannot predict. Investors should be aware that during periods of market stress, actual outcomes may fall outside the confidence bands more frequently than the model assumes.</p>
+</ul>
+<br>
+<h3>Key Assumptions</h3>
+<ul>
+<li><strong>No major geopolitical escalation:</strong> The model assumes current Iran conflict remains contained and does not escalate into a broader Middle East war that could trigger an energy crisis.</li>
+<li><strong>Fed policy path:</strong> The model assumes rates remain in the 3.5-3.75% range through the forecast period; an unexpected hike or cut would materially alter outcomes.</li>
+<li><strong>No recession:</strong> The base case assumes a "soft landing" materializes; a recession would likely produce bear case or worse outcomes.</li>
+</ul>
+<br>
+<br>
+<h2>5. Investment Implications</h2>
+<br>
+<h3>Tactical Allocation Recommendations</h3>
+<br>
+<table class="md-table">
+<thead><tr><th>Asset Class</th><th>Recommendation</th><th>Rationale</th></tr></thead><tbody>
+<tr><td><strong>Equities (S&amp;P 500)</strong></td><td><strong>UNDERWEIGHT</strong></td><td>Valuation headwinds from yield curve, limited upside (<span style="color:#16a34a;font-weight:600;">+0.7%</span>) within margin of error, mid-year correction risk</td></tr>
+<tr><td><strong>Treasury Bonds (TLT)</strong></td><td><strong>NEUTRAL</strong></td><td>Yields are attractive but further flattening poses risks; range-bound outlook</td></tr>
+<tr><td><strong>Gold (GLD)</strong></td><td><strong>UNDERWEIGHT</strong></td><td>Bearish trend, prior gains being taken profits on, dollar strength may persist</td></tr>
+<tr><td><strong>High Yield (HYG)</strong></td><td><strong>NEUTRAL</strong></td><td>Credit spreads stable but equity headwinds suggest caution</td></tr>
+<tr><td><strong>Cash</strong></td><td><strong>OVERWEIGHT</strong></td><td>Attractive yield (3.6%+ on T-bills) with optionality for deployment during expected correction</td></tr>
+</tbody></table>
+<br>
+<h3>Sector Views</h3>
+<br>
+<p>Given the MacroModel's emphasis on labor market health and rate sensitivity, the following sector tilts are recommended:</p>
+<br>
+<p>1. <strong>Technology (UNDERWEIGHT):</strong> High valuations less tenable in a rate-restrictive environment; the sector's sensitivity to yield curve dynamics makes it vulnerable to the model's strongest negative driver.</p>
+<br>
+<p>2. <strong>Healthcare (OVERWEVIEW):</strong> Defensive characteristics, less sensitive to yield curve inversion, stable demand regardless of economic cycle.</p>
+<br>
+<p>3. <strong>Financials (UNDERWEIGHT):</strong> While banks historically benefit from steep yield curves, the current flattening environment and tightening credit standards [Driver 1] present headwinds.</p>
+<br>
+<p>4. <strong>Energy (NEUTRAL):</strong> Oil price volatility driven by geopolitical risk creates uncertainty; the Iran conflict premium is already priced in, but escalation represents asymmetric risk.</p>
+<br>
+<h3>Timing Considerations</h3>
+<br>
+<p>The model projects the weakest point at <strong>Month 5 (September 2026)</strong> at 6,222 (-9.6%). This suggests:</p>
+<br>
+<ul>
+<li><strong>Q2 2026:</strong> Consider reducing equity exposure heading into summer months</li>
+<li><strong>Q4 2026:</strong> Look for tactical entry points as the model projects recovery</li>
+<li><strong>Q1 2027:</strong> Potential rebalancing toward neutral as recovery gains traction</li>
+</ul>
+<br>
+<br>
+<h2>6. Risk Factors to Monitor</h2>
+<br>
+<h3>Upside Risks (Bull Case Scenarios)</h3>
+<br>
+<p>1. <strong>Fed Pivot:</strong> If inflation cools faster than expected and the Fed begins cutting rates, the negative rate coefficient (-100.91) would reverse, potentially supporting equities toward the bull case (+1 RMSE) of <strong>7,784</strong>.</p>
+<br>
+<p>2. <strong>Geopolitical Resolution:</strong> A de-escalation in the Iran conflict could remove the geopolitical risk premium, potentially boosting risk assets.</p>
+<br>
+<p>3. <strong>Labor Market Resilience:</strong> Stronger-than-expected jobs data would support the positive labor force participation driver (+236.27), providing a buffer against recession fears.</p>
+<br>
+<h3>Downside Risks (Bear Case Scenarios)</h3>
+<br>
+<p>1. <strong>Yield Curve Inversion Deepens:</strong> Further flattening beyond current levels would intensify the strongest negative driver's impact (-358.78), potentially pushing outcomes toward the bear case of <strong>6,082</strong> or worse.</p>
+<br>
+<p>2. <strong>Recession Materialization:</strong> The model's coefficients are calibrated on historical data; a recession would likely produce losses exceeding the model's confidence bands.</p>
+<br>
+<p>3. <strong>Inflation Resurgence:</strong> If Core CPI accelerates beyond current 3.3% levels [Article 19], the Fed remains "boxed in" [Article 20], extending the restrictive policy stance and amplifying equity pressure.</p>
+<br>
+<p>4. <strong>Credit Event:</strong> Stable credit spreads currently provide false comfort; a credit crisis could trigger the nonlinear feedback loops the model cannot capture, accelerating losses beyond statistical expectations.</p>
+<br>
+<br>
+<h2>7. Conclusion</h2>
+<br>
+<p>The MacroModel's 12-month outlook for the S&amp;P 500 projects modest gains of +0.7%, ending at 6,933. However, this outcome is within the model's wide margin of error (+/- 851 points, or 12.4%), rendering the forecast essentially <strong>directionally neutral</strong>.</p>
+<br>
+<p><strong>Key Takeaways:</strong></p>
+<br>
+<ul>
+<li>The <strong>yield curve</strong> remains the single most important driver; any further flattening represents the greatest risk to equity valuations.</li>
+<li>The <strong>labor market</strong> is the primary positive catalyst; deterioration beyond current "cooling" levels [Article 4] would materially weaken the outlook.</li>
+<li><strong>Fed policy</strong> remains restrictive at 3.5-3.75% [Article 4], with the central bank "boxed in" [Article 20] between inflation concerns and growth risks.</li>
+<li><strong>Geopolitical risk</strong> from the Iran conflict has already driven the largest CPI jump since 2021 [Article 19], adding complexity to the inflation-policy dynamic.</li>
+<li>The <strong>mid-year correction</strong> projected for September 2026 (Month 5) presents a tactical opportunity for cash deployment.</li>
+</ul>
+<br>
+<p><strong>Recommendation:</strong> Maintain a defensive posture with an <strong>underweight equity allocation</strong>, <strong>overweight cash</strong> for optionality, and <strong>neutral</strong> positioning in bonds and credit. Monitor the yield curve and labor data closely; the model's directional signal is cautious, and the risk-reward profile does not support aggressive equity exposure at current levels.</p>
+<br>
+<br>
+<h2>References</h2>
+<br>
+<h3>Data Sources (FRED Indicators)</h3>
+<p>1. <strong>S&amp;P 500</strong> - SPY ETF price (market data)</p>
+<p>2. <strong>VIX</strong> - CBOE Volatility Index (market data)</p>
+<p>3. <strong>TLT</strong> - iShares 20+ Year Treasury Bond ETF (market data)</p>
+<p>4. <strong>10-Year Treasury Yield (^TNX)</strong> - FRED ID: DGS10</p>
+<p>5. <strong>2-Year Treasury Yield</strong> - FRED ID: DGS2</p>
+<p>6. <strong>13-Week T-Bill Yield (^IRX)</strong> - FRED ID: DTB3</p>
+<p>7. <strong>Gold (GLD)</strong> - SPDR Gold Shares ETF (market data)</p>
+<p>8. <strong>US Dollar Index (UUP)</strong> - Invesco DB US Dollar Index ETF (market data)</p>
+<p>9. <strong>High-Yield Bonds (HYG)</strong> - iShares iBoxx $ High Yield Corporate Bond ETF (market data)</p>
+<p>10. <strong>Labor Force Participation Rate</strong> - FRED ID: CLFURN</p>
+<p>11. <strong>Federal Funds Rate</strong> - FRED ID: FEDFUNDS</p>
+<p>12. <strong>Core CPI</strong> - FRED ID: CORCPI or CPILFESL</p></div>
+
+<div class="disclaimer">CS6180 Team 23</div>
+</body></html>
